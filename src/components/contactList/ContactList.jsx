@@ -1,18 +1,28 @@
-import React from 'react'
+import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
-import { deletePhone } from "../../redux/phoneBook/phone.action"
+import { addContact, getContacts, removeContact } from '../../redux/contacts/contacts.operations'
+// import { deletePhone } from "../../redux/phoneBook/phone.action"
 import styles from "./ContactList.module.css"
 
-const ContactList = ({ contacts, filter, deletePhone }) => {
+
+class ContactList extends PureComponent {
+     
+
+    componentDidMount() {
+    this.props.getContacts()
+}
 
 
-    const filteredContacts = contacts.filter((contact) => contact.name.toLowerCase().includes(filter.toLowerCase()))
+    //  filteredContacts = contacts.filter((contact) => contact.name.toLowerCase().includes(filter.toLowerCase()))
+    handleDelete = (event) => {
+        const { id } = event.target.dataset;
+        this.props.removeContact(id)
 
-    const handleDelete = (event) => {
-        const { id } = event.target.closest("[data-id]").dataset;
+}
+     
+    render() {
+        const {contacts, filter}=this.props
 
-        deletePhone(id)
-    }
     return (
 
         <>
@@ -24,11 +34,11 @@ const ContactList = ({ contacts, filter, deletePhone }) => {
                     <p>{contact.phone}</p>
                 </li>
             ))} */}
-                    {filteredContacts.map((contact) => (
+                    {contacts.map((contact) => (
                         <li key={contact.id} data-id={contact.id} className={styles.item}>
                             <p className={styles.text}>{contact.name}</p>
                             <p className={styles.text}>{contact.phone}</p>
-                            <button type="button" onClick={handleDelete} className={styles.deleteBtn}>Delete</button>
+                            <button type="button" onClick={this.handleDelete} className={styles.deleteBtn}>Delete</button>
                         </li>
                     ))}
                 </ul>
@@ -36,16 +46,19 @@ const ContactList = ({ contacts, filter, deletePhone }) => {
         </>
 
     )
+}}
+
+const mapStateToProps = (state) => ({
+    contacts: state.contacts.items,
+    filter: state.contacts.filter
+})
+
+const mapDispatchToProps = {
+    addContact,
+    getContacts,
+    removeContact
+    
 }
 
-
-
-const mapStateToProps = (state) => {
-    return ({
-        contacts: state.contacts.items,
-        filter: state.contacts.filter
-    })
-}
-const mapDispatchToProps = { deletePhone }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ContactList)

@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { addFilter } from "../../redux/phoneBook/phone.action"
+// import { addFilter } from "../../redux/phoneBook/phone.action"
 
 import styles from "./ContactFilter.module.css"
 
@@ -16,10 +16,10 @@ const ContactFilter = ({ addFilter, filter }) => {
 
 }
 
-const mapDispatchToProps = { addFilter }
-const mapStateToProps = (state) => ({
-    filter: state.contacts.filter
-})
+// const mapDispatchToProps = { addFilter }
+// const mapStateToProps = (state) => ({
+//     filter: state.contacts.filter
+// })
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(ContactFilter)
+export default ContactFilter
