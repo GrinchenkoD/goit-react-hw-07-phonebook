@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-// import { addPhone } from "../../redux/phoneBook/phone.action"
+import { addContact } from '../../redux/contacts/contacts.operations'
+
 
 import styles from "./ContactForm.module.css"
 
@@ -26,7 +27,7 @@ class ContactForm extends Component {
             alert(`${this.state.name} is already exist`);
             return
         }
-        this.props.addPhone(this.state)
+        this.props.addContact(this.state)
         this.setState({ ...InitialState })
     }
 
@@ -57,5 +58,13 @@ class ContactForm extends Component {
     }
 }
 
+const mapDispatchToProps = {
+    addContact
+}
 
-export default ContactForm
+const mapStateToProps = (state) => ({
+    contacts: state.contacts.items
+})
+
+export default connect(mapStateToProps,mapDispatchToProps)( ContactForm
+)

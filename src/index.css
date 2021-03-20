@@ -23,3 +23,10 @@ code {
 ul {
   list-style: none;
 }
+#root {
+}
+.thumb {
+  padding-top: 10px;
+  width: 60%;
+  margin: 0 auto;
+}

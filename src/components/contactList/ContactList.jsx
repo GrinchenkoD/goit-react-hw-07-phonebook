@@ -15,7 +15,8 @@ class ContactList extends PureComponent {
 
     //  filteredContacts = contacts.filter((contact) => contact.name.toLowerCase().includes(filter.toLowerCase()))
     handleDelete = (event) => {
-        const { id } = event.target.dataset;
+        console.log(event.target.closest("[data-id]"))
+        const { id } = event.target.closest("[data-id]").dataset;
         this.props.removeContact(id)
 
 }
@@ -34,7 +35,7 @@ class ContactList extends PureComponent {
                     <p>{contact.phone}</p>
                 </li>
             ))} */}
-                    {contacts.map((contact) => (
+                    {contacts.length>0 && contacts.map((contact) => (
                         <li key={contact.id} data-id={contact.id} className={styles.item}>
                             <p className={styles.text}>{contact.name}</p>
                             <p className={styles.text}>{contact.phone}</p>

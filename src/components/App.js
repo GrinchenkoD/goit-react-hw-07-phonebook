@@ -4,11 +4,11 @@ import ContactList from "./contactList/ContactList.jsx";
 
 function App() {
   return (
-    <>
+    <div className="thumb">
       <ContactForm />
       <ContactFilter />
       <ContactList />
-    </>
+    </div>
   );
 }
 
