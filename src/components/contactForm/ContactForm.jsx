@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { addContact } from '../../redux/contacts/contacts.operations'
+import { allContactsSelector } from '../../redux/contacts/contacts.selectors'
 
 
 import styles from "./ContactForm.module.css"
@@ -63,8 +64,7 @@ const mapDispatchToProps = {
 }
 
 const mapStateToProps = (state) => ({
-    contacts: state.contacts.items
+    contacts: allContactsSelector(state)
 })
 
-export default connect(mapStateToProps,mapDispatchToProps)( ContactForm
-)
+export default connect(mapStateToProps,mapDispatchToProps)(ContactForm)

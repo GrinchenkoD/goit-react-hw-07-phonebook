@@ -1,25 +1,27 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { filterChange } from '../../redux/contacts/contacts.actions'
 // import { addFilter } from "../../redux/phoneBook/phone.action"
+import {filterSelector} from "../../redux/contacts/contacts.selectors"
 
 import styles from "./ContactFilter.module.css"
 
-const ContactFilter = ({ addFilter, filter }) => {
+const ContactFilter = ({ filterChange, filter }) => {
 
     return (
         <div>
             <label htmlFor='search' className={styles.label} >Find contacts by name</label>
             <input id="search" type="text" className={styles.input} name="search" value={filter}
-                onChange={(event) => { addFilter(event.target.value) }} placeholder="Name*" />
+                onChange={(event) => { filterChange(event.target.value) }} placeholder="Name*" />
         </div>
     )
 
 }
 
-// const mapDispatchToProps = { addFilter }
-// const mapStateToProps = (state) => ({
-//     filter: state.contacts.filter
-// })
+const mapDispatchToProps = { filterChange }
+const mapStateToProps = (state) => ({
+    filter: filterSelector(state)
+})
 
 
-export default ContactFilter
+export default connect(mapStateToProps, mapDispatchToProps) (ContactFilter)

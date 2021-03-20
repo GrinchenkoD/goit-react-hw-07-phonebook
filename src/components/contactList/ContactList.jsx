@@ -1,7 +1,9 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { addContact, getContacts, removeContact } from '../../redux/contacts/contacts.operations'
-// import { deletePhone } from "../../redux/phoneBook/phone.action"
+import { doSomeLoadingSelector, filteredContacts } from '../../redux/contacts/contacts.selectors'
+import Loader from "../loader/Loader"
+
 import styles from "./ContactList.module.css"
 
 
@@ -10,48 +12,46 @@ class ContactList extends PureComponent {
 
     componentDidMount() {
     this.props.getContacts()
-}
+    }
 
 
-    //  filteredContacts = contacts.filter((contact) => contact.name.toLowerCase().includes(filter.toLowerCase()))
     handleDelete = (event) => {
-        console.log(event.target.closest("[data-id]"))
         const { id } = event.target.closest("[data-id]").dataset;
         this.props.removeContact(id)
 
-}
+    }
      
-    render() {
-        const {contacts, filter}=this.props
+render() {
+        const {contacts,loading}=this.props
 
     return (
 
         <>
             {!contacts.length ? <h2 className={styles.noContacts}>There are no added contacts yet</h2> :
                 <ul className={styles.list}>
-                    {/* {contacts && contacts.map((contact) => (
-                <li key={contact.id}>
-                    <p>{contact.name}</p>
-                    <p>{contact.phone}</p>
-                </li>
-            ))} */}
                     {contacts.length>0 && contacts.map((contact) => (
                         <li key={contact.id} data-id={contact.id} className={styles.item}>
-                            <p className={styles.text}>{contact.name}</p>
-                            <p className={styles.text}>{contact.phone}</p>
-                            <button type="button" onClick={this.handleDelete} className={styles.deleteBtn}>Delete</button>
+                            <div className={styles.textThumb}>
+                                <p className={styles.text}>{contact.name}</p>
+                            </div>
+                            <div className={styles.textThumb}>
+                                <p className={styles.text}>{contact.phone}</p>
+                            </div>
+                            <button type="button" onClick={this.handleDelete} className={styles.deleteBtn} disabled={loading}>Delete</button>
                         </li>
                     ))}
                 </ul>
             }
+
+            {loading&& <Loader/>}
         </>
 
     )
 }}
 
 const mapStateToProps = (state) => ({
-    contacts: state.contacts.items,
-    filter: state.contacts.filter
+    contacts: filteredContacts(state),
+    loading: doSomeLoadingSelector(state)
 })
 
 const mapDispatchToProps = {
